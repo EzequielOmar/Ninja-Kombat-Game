@@ -1,0 +1,27 @@
+{
+  "name": "ninja-kombat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "webpack --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EzequielOmar/ninja-kombat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EzequielOmar/ninja-kombat/issues"
+  },
+  "homepage": "https://github.com/EzequielOmar/ninja-kombat#readme",
+  "dependencies": {
+    "webpack": "^5.13.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.3.1"
+  }
+}
