@@ -14,11 +14,12 @@ module.exports = class Game extends PIXI.utils.EventEmitter {
             transparent: false, 
             resolution: 1
         });
-		this.root_containter.appendChild( this.app.renderer.view );
         //create a new AnimationLoop class, that will manage the render loop functions
         this.animationLoop = new AnimationLoop(this.app.renderer,this.stage);
+        //insert the pixi view element in the document.body
+		this.root_containter.appendChild( this.app.renderer.view );
         //start loop
         this.animationLoop.start();
     }
-
+    //***TODA LA LOGICA EN ESTA CLASE - TODO PRIVADO
 }
