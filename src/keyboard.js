@@ -1,4 +1,4 @@
-function keyboard(value) {
+module.exports = function keyboard(value) {
     let key = {};
     key.value = value;
     key.isDown = false;

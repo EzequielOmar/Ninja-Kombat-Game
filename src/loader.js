@@ -1,14 +1,14 @@
 class Loader{
     constructor(){
+        this.assets = new PIXI.Loader();
 		this._imagesReady = false;
 		this._callback = null;
-        this._assetLoader = new PIXI.Loader();
-        this._assetLoader.add("./assxets/ninja.json");
-		this._assetLoader.onError.add( () => {  } );
-		this._assetLoader.onComplete.add( () => { this._onImagesLoaded(); } );
+        this.assets.add("./assets/ninja.json");
+		//this._assetLoader.onError.add( () => {  } );
+		this.assets.onComplete.add( () => { this._onImagesLoaded(); } );
     }
     load( callback ) {
-		this._assetLoader.load();
+		this.assets.load();
 		this._callback = callback;
 	}
 	_onImagesLoaded(){
