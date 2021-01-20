@@ -1,4 +1,5 @@
-const keyboard = require('./keyboard');
+require('pixi-keyboard');
+
 //const fields
 const HEALTH = 100,
     SPEED = 10,
@@ -6,19 +7,14 @@ const HEALTH = 100,
     damage = 1,
 kills= 0;
 
-//Key codes
-const /*left = keyboard("ArrowLeft"),
-    up = keyboard("ArrowUp"),
-    right = keyboard("ArrowRight"),
-    down = keyboard("ArrowDown"),
-    shiftright = keyboard("1"),
-    controlright = keyboard("2"),*/
-    keya = keyboard("a"),
-    keyw = keyboard("w"),
-    keyd = keyboard("d"),
-    keys = keyboard("s"),
-    keyf = keyboard("f"),
-keyg = keyboard("g");
+const keys = {
+    left : PIXI.keyboardManager.getHotKey(PIXI.keyboard.Key.A),
+    up : PIXI.keyboardManager.getHotKey(PIXI.keyboard.Key.W),
+    rigth : PIXI.keyboardManager.getHotKey(PIXI.keyboard.Key.D),
+    down : PIXI.keyboardManager.getHotKey(PIXI.keyboard.Key.S),
+    attack : PIXI.keyboardManager.getHotKey(PIXI.keyboard.Key.F),
+    throw : PIXI.keyboardManager.getHotKey(PIXI.keyboard.Key.G)
+}
 
 module.exports = class Ninja{
     constructor(game,x,y,facing){
@@ -28,6 +24,7 @@ module.exports = class Ninja{
         this._ninjaAssets = this._game._resources["./assets/ninja.json"].spritesheet.animations;
         this._textures = this._game._resources["./assets/ninja.json"].textures;
         this._ninja = new PIXI.Container();
+        
         this._facing = facing;
         this._health = HEALTH;
         this._runleft = false;
@@ -72,81 +69,13 @@ module.exports = class Ninja{
 
         this._game._stage.addChild(this._ninja);
         this._game._stage.addChild(this._kunai);
+
         
     }
-    _onKeyEvent(){
-        /**
-         * Set state of player 
-         * on key press and key release.
-         */
-        //A left
-        keya.press = () => {
-            console.log("a");
-            this._vx = -SPEED;
-            this._facing = 'l';
-            this._runleft= true;
-        };
-        keya.release = () => {
-            console.log("b");
-            this._vx = 0;
-            this._runleft= false;
-        };
-        //W up
-        keyw.press = () => {
-            if(this._ground && !this._jump){
-                this._vy = -SPEED;
-                this._jump=true;
-                this._ground=false;
-            }
-        };
-        keyw.release = () => {
-            this._vy = 0;
-        };
-        //D right
-        keyd.press = () => {
-            this._vx = SPEED;
-            this._facing = 'r';
-            this._runright= true;
-        };
-        keyd.release = () => {
-            this._vx = 0;
-            this._runright= false;
-        };
-        //S down
-        keys.press = () => {
-            this._slide=true;
-        };
-        keys.release = () => {
-            this._slide=false;
-        };
-        //F attack
-        keyf.press = () => {
-            this._attack=true;
-        };
-        keyf.release = () => {
-            this._attack=false;
-        };
-        //G kunai
-        keyg.press =() => {
-            this._throw=true;
-            if(!this._kunai.visible || this._kunai.visible == false){
-                this._kunai.visible=true;
-                this._kunai.y = 350;
-                if(this._facing == 'l'){
-                    this._kunai.x = this._ninja.position.x - 190;
-                    this._kunai.vx = -SPEED;
-                }
-                if(player1.lastDir == "r"){
-                    this._kunai.x=player1.x+175;
-                    this._kunai.vx = player1.speed;
-                }
-            }
-        };
-        keyg.release =() => {
-            this._throw=false;
-        };
-    }
     _movePlayers(){
+        if(keys["left"]){
+            this._vx = -SPEED;
+        }
         this._ninja.position.x += this._vx;
         this._ninja.position.y += this._vy;
     }
@@ -255,9 +184,16 @@ module.exports = class Ninja{
             this._ninja.pivot.x = this._animations["dead"].width/2;
         }
     }
+    _manageKeys(){
+        if(keys.up.isPressed){
+            alert("asd");
+        }
+    }
+
     _update(){
-        this._onKeyEvent();
-        this._movePlayers();
-        this._manageAnimation();
+        //this._movePlayers();
+        //this._manageAnimation();
+        this._manageKeys();
+        PIXI.keyboardManager.update()
     }
 }

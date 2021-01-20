@@ -20,7 +20,9 @@
   "homepage": "https://github.com/EzequielOmar/ninja-kombat#readme",
   "dependencies": {
     "@pixi/app": "^5.3.7",
-    "babel-polyfill": "^6.26.0"
+    "babel-polyfill": "^6.26.0",
+    "pixi-animationloop": "^1.0.9",
+    "pixi-keyboard": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

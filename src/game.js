@@ -1,4 +1,5 @@
-const AnimationLoop = require('./animationloop');
+//const AnimationLoop = require('./animationloop');
+const AnimationLoop = require('pixi-animationloop');
 const Ninja = require('./ninja');
 
 module.exports = class Game extends PIXI.utils.EventEmitter {
@@ -18,7 +19,7 @@ module.exports = class Game extends PIXI.utils.EventEmitter {
         //this field represent the assets
         this._resources = resources;
         //create a new AnimationLoop class, that will manage the render loop functions
-        this._animationLoop = new AnimationLoop(this._app.renderer,this._stage);
+        this._animationLoop = new PIXI.AnimationLoop(this._app.renderer,this._stage);
         //
         //insert the pixi view element in the document.body
 		this.DOM_containter.appendChild( this._app.renderer.view );
