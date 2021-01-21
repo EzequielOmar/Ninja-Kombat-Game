@@ -3,7 +3,7 @@ class Loader{
         this.assets = new PIXI.Loader();
 		this._imagesReady = false;
 		this._callback = null;
-        this.assets.add("./assets/ninja.json");
+        this.assets.add("ninja","./assets/ninja.json");
 		//this._assetLoader.onError.add( () => {  } );
 		this.assets.onComplete.add( () => { this._onImagesLoaded(); } );
     }

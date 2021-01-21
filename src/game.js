@@ -27,7 +27,7 @@ module.exports = class Game extends PIXI.utils.EventEmitter {
         this._animationLoop.start();
 
 
-        let ninja = new Ninja(this,100,100,'r');
+        let ninja = new Ninja(this);
         this._animationLoop.on('prerender',() => {ninja._update();})
     }
     //***TODA LA LOGICA EN ESTA CLASE - TODO PRIVADO
