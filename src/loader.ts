@@ -1,4 +1,7 @@
 class Loader{
+	assets: PIXI.Loader;
+	private _imagesReady:boolean;
+	private _callback;
     constructor(){
         this.assets = new PIXI.Loader();
 		this._imagesReady = false;
@@ -18,4 +21,4 @@ class Loader{
 	//***MANEJAR ERROR DE CARGA DE IMAGENES
 }
 
-module.exports = new Loader();
+export const loader = new Loader();

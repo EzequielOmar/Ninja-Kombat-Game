@@ -1,13 +1,19 @@
-//const AnimationLoop = require('./animationloop');
-const AnimationLoop = require('pixi-animationloop');
-const Ninja = require('./ninja');
+import 'pixi-animationloop';
+import { Ninja } from './ninja';
 
-module.exports = class Game extends PIXI.utils.EventEmitter {
-    constructor( resources, DOM_containter = document.body ){
+
+export class Game extends PIXI.utils.EventEmitter {
+    private _DOM_container;
+    private _stage;
+    private _app;
+    private _resources;
+    private _animationLoop;
+
+    constructor( resources, DOM_container = document.body ){
         //inicialize event emiter
         super();
         //FIELDS
-        this.DOM_containter = DOM_containter;
+        this._DOM_container = DOM_container;
         this._stage = new PIXI.Container();
         this._app = new PIXI.Application({ 
             width: window.innerWidth, 
@@ -20,12 +26,10 @@ module.exports = class Game extends PIXI.utils.EventEmitter {
         this._resources = resources;
         //create a new AnimationLoop class, that will manage the render loop functions
         this._animationLoop = new PIXI.AnimationLoop(this._app.renderer,this._stage);
-        //
         //insert the pixi view element in the document.body
-		this.DOM_containter.appendChild( this._app.renderer.view );
+		this._DOM_container.appendChild( this._app.renderer.view );
         //start the renderer loop
         this._animationLoop.start();
-
 
         let ninja = new Ninja(this);
         this._animationLoop.on('prerender',() => {ninja._update();})

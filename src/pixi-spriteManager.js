@@ -1,5 +1,5 @@
 module.exports = class spriteManager {
-    Sprite(texture,visible,scaleY,pivotX,pivotY,posX,posY){
+    static Sprite(texture,visible,scaleY,pivotX,pivotY,posX,posY){
         let sprite = new PIXI.Sprite(texture);
         sprite.visible = visible;
         sprite.scale.y*=scaleY;
@@ -9,9 +9,12 @@ module.exports = class spriteManager {
         sprite.position.y = posY;
         return sprite;
     }
-    AnimatedSprite(animation,speed){
-        let animation = new PIXI.AnimatedSprite(animation);
+    static AnimatedSprite(textureArray,speed,loop = true){
+        let animation = new PIXI.AnimatedSprite(textureArray);
+        animation.loop = loop;        
         animation.animationSpeed = speed;
+        animation.pivot.y = animation.height;
+        animation.pivot.x = animation.width/2;
         animation.play();
         return animation;
     }

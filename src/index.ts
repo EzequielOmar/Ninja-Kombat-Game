@@ -1,5 +1,6 @@
-const loader = require("./loader");
-const game = require("./game");
+import PIXI from "pixi.js";
+import { loader } from './loader';
+import { Game } from './game';
 
 
 /**
@@ -7,10 +8,8 @@ const game = require("./game");
  * this try/catch block will catch that exception, log it, and stop the game.
 */
 try{
-    loader.load(() => { new game(loader.assets.resources); })
+    loader.load(() => { new Game(loader.assets.resources); })
 }catch(e){
     console.log(e);
     //***MANEJAR TERMINAR JEGO Y AVISAR USUARio
 }
-
- 
