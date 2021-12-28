@@ -1,12 +1,13 @@
-module.exports = class spriteManager {
-    static Sprite(texture,visible,scaleY,pivotX,pivotY,posX,posY){
+export class spriteManager {
+    static Sprite(texture){
         let sprite = new PIXI.Sprite(texture);
-        sprite.visible = visible;
-        sprite.scale.y*=scaleY;
-        sprite.pivot.x=pivotX;
-        sprite.pivot.y=pivotY;
-        sprite.position.x = posX;
-        sprite.position.y = posY;
+        sprite.width = window.innerWidth;
+        sprite.height = window.innerHeight;
+        //sprite.visible = visible;
+        //sprite.scale.y*=scaleY;
+        //sprite.pivot.x=pivotX;
+        //sprite.pivot.y=pivotY;
+        //sprite.position.x = posX;
         return sprite;
     }
     static AnimatedSprite(textureArray,speed,loop = true){

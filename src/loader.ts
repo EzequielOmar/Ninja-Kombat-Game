@@ -6,7 +6,10 @@ class Loader{
         this.assets = new PIXI.Loader();
 		this._imagesReady = false;
 		this._callback = null;
-        this.assets.add("ninja","./assets/ninja.json");
+        this.assets.add("ninja","./assets/ninja/ninja.json");
+        this.assets.add("stage1","./assets/stage/stage1.png");
+        this.assets.add("stage2","./assets/stage/stage2.png");
+        this.assets.add("stage3","./assets/stage/stage3.png");
 		//this._assetLoader.onError.add( () => {  } );
 		this.assets.onComplete.add( () => { this._onImagesLoaded(); } );
     }

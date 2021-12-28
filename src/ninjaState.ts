@@ -1,98 +1,94 @@
-/*import {
-    CharacterAnimations,
-    CharacterDirection,
-    CharacterJump,
-    CharacterInitState,
-    Keys
+import Keyboard from 'pixi.js-keyboard';
+import {
+  Scene,
+  Ninja,
+  NinjaMode,
+  NinjaDirection,
+  NinjaJump,
+  NinjaInitState,
+  NinjaState,
+  NinjaKeys
 } from "./constants";
 
-const getCharacterMoveDirection = (
-  keyboard: KeyboardState,
-  prevDirection: number
-) => {
-  if (keyboard.ArrowRight) {
-    return CharacterDirections.Right;
-  } else if (keyboard.ArrowLeft) {
-    return CharacterDirections.Left;
+
+const isNinjaMovingX = () => 
+  Keyboard.isKeyDown(NinjaKeys.left) || Keyboard.isKeyDown(NinjaKeys.rigth);
+
+const getNinjaMoveDirection = (prevDirection: number) => {
+  if (Keyboard.isKeyDown(NinjaKeys.left)) {
+    return NinjaDirection.left;
+  } else if (Keyboard.isKeyDown(NinjaKeys.rigth)) {
+    return NinjaDirection.rigth;
   }
   return prevDirection;
-};
+}
 
-const isCharacterMovingX = (keyboard: KeyboardState) =>
-  keyboard.ArrowLeft || keyboard.ArrowRight;
-
-const isCharacterJumping = (jump: number) => {
-  return jump > 0;
-};
-
-const getCharacterMode = (
-  movingX: boolean,
-  jump: boolean,
-  onTheGround: boolean
-) => {
-  if (jump) {
-    return CharacterMode.Jumping;
-  } else if (!onTheGround) {
-    return CharacterMode.Falling;
-  } else if (movingX) {
-    return CharacterMode.Running;
-  }
-  return CharacterMode.Idle;
-};
-
-const getCharacterJump = (
-  keyboard: KeyboardState,
-  prevJump: number,
-  onTheGround: boolean
-) => {
-  if (keyboard.Space && onTheGround) {
-    return World.Character.JumpSpeed;
-  } else if (prevJump > 0 && prevJump < World.Character.JumpThreshold) {
-    return World.Character.JumpThreshold - prevJump < World.Character.JumpSpeed
-      ? World.Character.JumpThreshold
-      : prevJump + World.Character.JumpSpeed;
-  }
-  return 0;
-};
-
-const getCharacterVy = (jumping: boolean, onTheGround: boolean) => {
-  if (jumping) {
-    return -World.Character.JumpSpeed;
-  }
-  return onTheGround ? 0 : World.Gravity;
-};
-
-const getCharacterVx = (movingX: boolean, moveDirection: number) => {
-  return movingX ? moveDirection * World.Character.Speed : 0;
+const getNinjaVx = (movingX: boolean, moveDirection: number) => {
+  return movingX ? moveDirection * Ninja.speed : 0;
 };
 
 const isOnTheGround = (prevY: number) => {
-  return prevY >= Scene.Height / 2;
+  return prevY >= Scene.floor;
 };
 
-export const calculateCharacterState = (
-  { world }: GameState,
-  keyboard: KeyboardState
-) => {
-  const movingX = isCharacterMovingX(keyboard);
-  const direction = getCharacterMoveDirection(
-    keyboard,
-    world.character.direction
-  );
-  const onTheGround = isOnTheGround(world.character.y);
-  const jump = getCharacterJump(keyboard, world.character.jump, onTheGround);
-  const jumping = isCharacterJumping(jump);
-  const vY = getCharacterVy(jumping, onTheGround);
-  const vX = getCharacterVx(movingX, direction);
-  const mode = getCharacterMode(movingX, jumping, onTheGround);
+const getNinjaJump = (
+  prevJump: number,
+  onTheGround: boolean
+) => 
+{
+  if(Keyboard.isKeyPressed(NinjaKeys.up)){
+    if(onTheGround){
+      return NinjaJump.one;
+    } else if (prevJump > NinjaJump.floor && prevJump < NinjaJump.two) {
+      return NinjaJump.two;
+    }
+  }
+  return prevJump;
+};
 
-  return {
-    direction,
-    vX,
-    vY,
-    mode,
-    jump,
-    x: world.character.x + vX,
-    y: world.character.y + vY
-  };
-};*/
+const isNinjaJumping = (jump: number) => {
+  return jump > 0;
+};
+
+const getNinjaMode = (
+  movingX: boolean,
+  jump: boolean/*,
+  onTheGround: boolean*/
+) => {
+  if (jump) {
+    return NinjaMode.jump;
+  }/*else if(jump && Keyboard.isKeyPressed(NinjaKeys.attack)){
+    return NinjaMode.jumpAttack;
+  } else if(Keyboard.isKeyPressed(NinjaKeys.attack)){
+    return NinjaMode.attack;
+  }*/ else if(movingX && Keyboard.isKeyDown(NinjaKeys.down)){
+    return NinjaMode.slide;
+  } else if (movingX) {
+    return NinjaMode.run;
+  }
+  return NinjaMode.idle;
+};
+
+const getNinjaVy = (jumping: boolean, onTheGround: boolean) => {
+  if (jumping) {
+    return -Ninja.jumpspeed;
+  }
+  return onTheGround ? 0 : Scene.gravity;
+};
+
+export const update_NinjaState = (state: NinjaState) => {
+  const movingX = isNinjaMovingX();
+  const direction = getNinjaMoveDirection(state.direction);
+  const vX = getNinjaVx(movingX, direction);
+  const onTheGround = isOnTheGround(state.coordinates.y);
+  const jump = getNinjaJump(state.jump, onTheGround);
+  const jumping = isNinjaJumping(jump);
+  const vY = getNinjaVy(jumping, onTheGround);
+  const mode = getNinjaMode(movingX, jumping/*, onTheGround*/);
+  state.direction = direction;
+  state.jump = jump;
+  state.mode = mode;
+  state.coordinates.x += vX;
+  state.coordinates.y += vY;
+  return state; 
+}

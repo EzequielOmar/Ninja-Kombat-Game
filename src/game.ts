@@ -1,6 +1,7 @@
+//https://ansimuz.itch.io/bulkhead-walls-environment -Z free tileset
 import 'pixi-animationloop';
 import { Ninja } from './ninja';
-
+import{ spriteManager } from './pixi-spriteManager';
 
 export class Game extends PIXI.utils.EventEmitter {
     private _DOM_container;
@@ -30,6 +31,10 @@ export class Game extends PIXI.utils.EventEmitter {
 		this._DOM_container.appendChild( this._app.renderer.view );
         //start the renderer loop
         this._animationLoop.start();
+
+        this._stage.addChild(spriteManager.Sprite(this._resources["stage1"].texture));
+        this._stage.addChild(spriteManager.Sprite(this._resources["stage2"].texture));
+        this._stage.addChild(spriteManager.Sprite(this._resources["stage3"].texture));
 
         let ninja = new Ninja(this);
         this._animationLoop.on('prerender',() => {ninja._update();})
