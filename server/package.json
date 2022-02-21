@@ -1,0 +1,22 @@
+{
+  "name": "nk-server",
+  "version": "1.0.0",
+  "description": "Server made for game, with sockets.io.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ezequiel Omar",
+  "license": "ISC",
+  "dependencies": {
+    "@socket.io/redis-adapter": "^7.1.0",
+    "express": "^4.17.3",
+    "redis": "^4.0.3",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

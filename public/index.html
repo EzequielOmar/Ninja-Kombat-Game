@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Ninja-Fight!</title>
+    <!--Style-->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--Scripts-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.7/pixi.min.js"
+        integrity="sha512-k8E2ILMRTO1YBnA2dvTDfsZs7f07gazZDQYbsv2NCxnM9hYFwCKu+rWISm8/fFB1I/gi0tgnURcXJVR7GlE0BA=="
+        crossorigin="anonymous"></script>
+    <script src="dist/bundle.js" defer></script>
+</head>
+
+<body>
+    <div id="lobby">
+        <div id="load">Loading... </div>
+        <button class="btn" id="start-room">Create Room</button>
+        <div id="copy-room-url">
+            <input type="text" id="room-input">
+            <button class="btn" id="copy-room-input-value">Copy Link</button>
+            <div>Waiting for playing two to join...</div>
+        </div>
+        <div id="confirm">
+            <div>Player two has joined.</div>
+            <button class="btn">Ready!</button>
+            <div>Starting Game...</div>
+        </div>
+        <div id="error">Error: The application stopped due to:</div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+body {
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/*Game*/
+canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -100;
+}
+
+/*Lobby div*/
+#lobby {
+  z-index: 100;
+  background-color: #000000a8;
+  min-width: 250px;
+  padding: 2rem 0.5rem;
+  text-align: center;
+  color: white;
+  border: 4px white double;
+}
+
+/*Create-Room buttom*/
+.btn {
+  background: #ffffff36;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  margin: auto;
+}
+
+.btn:hover {
+  background: #ffffff54;
+}
+
+/*Room input*/
+#room-input {
+  height: 1.5rem;
+  border-radius: 8px;
+  background: #ffffff36;
+  color: white;
+}
+
+/*Hide components on init*/
+#start-room,
+#copy-room-url,
+#confirm,
+#error {
+  display: none;
+}
