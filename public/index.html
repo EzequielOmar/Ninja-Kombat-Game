@@ -15,21 +15,18 @@
 </head>
 
 <body>
-    <div id="lobby">
-        <div id="load">Loading... </div>
-        <button class="btn" id="start-room">Create Room</button>
-        <div id="copy-room-url">
-            <input type="text" id="room-input">
-            <button class="btn" id="copy-room-input-value">Copy Link</button>
-            <div>Waiting for playing two to join...</div>
-        </div>
-        <div id="confirm">
-            <div>Player two has joined.</div>
-            <button class="btn">Ready!</button>
-            <div>Starting Game...</div>
-        </div>
-        <div id="error">Error: The application stopped due to:</div>
+    <div class="txt" id="loading-div">Loading... </div>
+    <div id="waiting-room-div">
+        <h1>Welcome to Ninja Kombat!</h1>
+        <input type="text" id="waiting-room-input">
+        <button class="btn" id="waiting-room-btn">Copy Room Url</button>
+        <div class="txt">Pass the room url to a friend and start fighting!</div>
     </div>
+    <div id="full-room-div">
+        <div class="txt">Player two has joined!</div>
+        <button class="btn" id="full-room-btn">Ready?</button>
+    </div>
+    <div class="txt" id="error-div"></div>
 </body>
 
 </html>

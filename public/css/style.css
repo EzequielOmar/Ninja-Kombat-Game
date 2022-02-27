@@ -16,8 +16,8 @@ canvas {
   z-index: -100;
 }
 
-/*Lobby div*/
-#lobby {
+/*lobby div*/
+body > div {
   z-index: 100;
   background-color: #000000a8;
   min-width: 250px;
@@ -25,9 +25,18 @@ canvas {
   text-align: center;
   color: white;
   border: 4px white double;
+  font-family: monospace;
+  font-weight: 600;
+  /*hide all on init (it will be display it dinamically)*/
+  display: none;
 }
 
-/*Create-Room buttom*/
+/*welcome*/
+h1 {
+  font-size: x-large;
+}
+
+/*lobby buttons*/
 .btn {
   background: #ffffff36;
   color: white;
@@ -35,25 +44,21 @@ canvas {
   cursor: pointer;
   font-weight: 600;
   padding: 0.5rem 1rem;
-  margin: auto;
+  margin: 1rem 0;
 }
 
 .btn:hover {
   background: #ffffff54;
 }
 
-/*Room input*/
-#room-input {
+.copied {
+  background: green;
+}
+
+/*room url input*/
+input {
   height: 1.5rem;
   border-radius: 8px;
   background: #ffffff36;
   color: white;
-}
-
-/*Hide components on init*/
-#start-room,
-#copy-room-url,
-#confirm,
-#error {
-  display: none;
 }
