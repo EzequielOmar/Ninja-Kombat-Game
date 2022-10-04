@@ -12,7 +12,7 @@ export class App {
   private _animationLoop: PIXI.AnimationLoop;
   private _stage: PIXI.Container;
   game: Game;
-  roomId: string;
+  //roomId: string;
   //body html element
   private _DOM_container: HTMLElement;
 
@@ -27,8 +27,6 @@ export class App {
       resolution: 1,
       resizeTo: window,
     });
-    //get the room id from the url params (if exists)
-    this.roomId = new URLSearchParams(window.location.search).get("roomId");
     //prepare stage, animation loop, and game class
     this._prepareScreen();
   }
@@ -41,18 +39,13 @@ export class App {
     lobby.displayError(errorMessages);
   }
 
-  onAssetsLoadSucces() {
-    this.game.drawStage();
-    if (!this.roomId) this._waitingRoom();
-    else socketConnection.createRoom(this.roomId);
+  displayLobby() {
+    this.game.setRoomId();
+    if (this.game.roomId === socketConnection.socket.id)
+      lobby.displayWaitingRoom(window.location.href);
+    else socketConnection.createRoom(this.game.roomId);
   }
-
-  private _waitingRoom() {
-    //push room url into window location
-    window.history.pushState("", "", "/?roomId=" + socketConnection.socket.id);
-    lobby.displayWaitingRoom(window.location.href);
-  }
-
+  
   fullRoom() {
     lobby.displayFullRoom();
   }
@@ -67,7 +60,7 @@ export class App {
     this._DOM_container.appendChild(this._app.renderer.view);
     //start the renderer loop
     this._animationLoop.start();
-    //create the game class, to handle the game
+    //create the game class, it handles the game logic
     this.game = new Game(
       this._stage,
       this._animationLoop,

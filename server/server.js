@@ -17,9 +17,6 @@ app.use("/", express.static(publicPath));
 
 //On socket connection, use the events files
 io.on("connection", (socket) => {
-  //console.log(io.of("/").sockets.size);
-  //console.log(io.of("/").sockets);
-  //console.log(socket);
   socketEvents(io, socket);
 });
 

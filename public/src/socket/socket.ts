@@ -21,14 +21,13 @@ class SocketConnection {
 
   /**
    * when player confirms his ready, emit screen size to position players
-   * @param roomId room id
    */
   emitPlayerReady(roomId: string) {
     let screenSize = { x: window.innerWidth, y: window.innerHeight };
-    this.socket.emit("playerReady", roomId, screenSize);
+    this.socket.emit("playerReady", screenSize);
   }
 
-  emitStateUpdate(state: NinjaState) {
+  emitStateUpdate(roomId: string, state: NinjaState) {
     this.socket.emit("stateUpdate", state);
   }
 }

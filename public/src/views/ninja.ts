@@ -5,7 +5,6 @@ import {
   NinjaMode,
   //NinjaDirection,
   //NinjaJump,
-  NinjaInitState,
   NinjaJump,
   NinjaState,
 } from "../const/ninjaConst";
@@ -14,50 +13,61 @@ import { spriteManager } from "./pixi-spriteManager";
 import { socketConnection } from "../socket/socket";
 
 export class Ninja {
-  private _game;
-  private _stage;
-  private _animations;
-  private _textures;
-  private _ninja;
-  private _currentState;
-  private _prevState;
+  private _stage: PIXI.Container;
+  private _animations: any;
+  private _ninja: PIXI.Container;
+  private _prevState: NinjaState;
+  private _roomId: string;
+  private _currentState: NinjaState;
+  id: string;
 
-  constructor(game) {
+  constructor(
+    stage: PIXI.Container,
+    resources: any,
+    initState: NinjaState,
+    id: string,
+    roomId: string
+  ) {
     //fields
-    this._game = game;
-    this._stage = this._game._stage;
-    this._animations = this._game._resources["ninja"].spritesheet.animations;
-    this._textures = this._game._resources["ninja"].textures;
-    this._prevState = null;
+    this._stage = stage;
+    this._animations = resources["ninja"].spritesheet.animations;
     this._ninja = new PIXI.Container();
-    this._stage.addChild(this._ninja);
+    this._prevState = null;
+    this._currentState = initState;
+    this.id = id;
+    this._roomId = roomId;
 
-    //    this._currentState = NinjaInitState;
+    console.log(this.id === this._roomId);
+    //set tint
+
+    this._stage.addChild(this._ninja);
   }
 
-  private _draw() {
-    update_NinjaState(this._currentState);
+  drawCurrentState() {
     if (
       this._prevState === null ||
       this._prevState.mode !== this._currentState.mode ||
       this._prevState.direction !== this._currentState.direction
     ) {
       this._ninja.scale.x = this._currentState.direction;
-      this._ninja.removeChildren();
-
       //add new animation mode
       let texture = this._animations[this._currentState.mode];
       let speed = 0.5;
       let loop = true;
-      let animation;
-
+      let animation: any;
+      this._ninja.removeChildren();
+      console.log(this._currentState.mode);
       switch (this._currentState.mode) {
         case NinjaMode.idle:
         case NinjaMode.run:
         case NinjaMode.slide:
+        case NinjaMode.attack:
+        case NinjaMode.throw:
           animation = spriteManager.AnimatedSprite(texture, speed, loop);
           break;
         case NinjaMode.jump:
+        case NinjaMode.jumpAttack:
+        case NinjaMode.jumpThrow:
           loop = false;
           animation = spriteManager.AnimatedSprite(texture, speed, loop);
           animation.onComplete = () => {
@@ -68,17 +78,18 @@ export class Ninja {
       this._ninja.addChild(animation);
       this._prevState = JSON.parse(JSON.stringify(this._currentState));
     }
-    this._ninja.x = this._currentState.coordinates.x;
-    this._ninja.y = this._currentState.coordinates.y;
+    this._ninja.x = this._currentState.coord.x;
+    this._ninja.y = this._currentState.coord.y;
   }
 
-  update() {
-    if (this._currentState) this._draw();
+  castMotions() {
     Keyboard.update();
-    //socketConnection.emitStateUpdate(this._currentState);
+    this._currentState = update_NinjaState(this._currentState);
+    socketConnection.emitStateUpdate(this._roomId, this._currentState);
   }
 
-  setPlayerState(currentState: NinjaState) {
-    this._currentState = currentState;
+  setCurrentState(_currentState: NinjaState) {
+    if (JSON.stringify(this._currentState) !== JSON.stringify(_currentState))
+      this._currentState = _currentState;
   }
 }
