@@ -3,8 +3,9 @@ const Scene = {
   gravity: 5,
 };
 
-const Ninja = {
-  speed: 5,
+const NinjaConstants = {
+  animation_speed: 0.5,
+  coord_speed: 5,
   jumpspeed: 2,
   life: 100,
 };
@@ -26,25 +27,15 @@ enum NinjaDirection {
   rigth = 1,
 }
 
-enum NinjaJump {
-  floor = 0,
-  one = 1,
-  two = 2,
-}
-
 interface NinjaState {
   id: string;
-  screen: {
-    x: number;
-    y: number;
-  };
   coord: {
     x: number;
     y: number;
   };
   mode: NinjaMode;
   direction: NinjaDirection;
-  jump: NinjaJump;
+  jump: boolean;
   slide: boolean;
   dead: boolean;
   life: number;
@@ -61,10 +52,9 @@ enum NinjaKeys {
 
 export {
   Scene,
-  Ninja,
+  NinjaConstants,
   NinjaMode,
   NinjaDirection,
-  NinjaJump,
   NinjaState,
   NinjaKeys,
 };

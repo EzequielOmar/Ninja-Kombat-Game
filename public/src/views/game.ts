@@ -1,4 +1,3 @@
-import { spriteManager } from "./pixi-spriteManager";
 import { Ninja } from "./ninja";
 import { socketConnection } from "../socket/socket";
 import { NinjaState } from "../const/ninjaConst";
@@ -37,15 +36,9 @@ export class Game {
 
   drawStage() {
     this._stage.removeChildren();
-    this._stage.addChild(
-      spriteManager.Sprite(this._resources["stage1"].texture)
-    );
-    this._stage.addChild(
-      spriteManager.Sprite(this._resources["stage2"].texture)
-    );
-    this._stage.addChild(
-      spriteManager.Sprite(this._resources["stage3"].texture)
-    );
+    this._stage.addChild(this._Sprite(this._resources["stage1"].texture));
+    this._stage.addChild(this._Sprite(this._resources["stage2"].texture));
+    this._stage.addChild(this._Sprite(this._resources["stage3"].texture));
   }
 
   start() {
@@ -54,20 +47,14 @@ export class Game {
       if (this._players.length === 0) {
         //playersState.forEach((playerState: NinjaState) => {
         this._players.push(
-          new Ninja(
-            this._stage,
-            this._resources,
-            playerState,
-            playerState.id,
-            "asd"
-          )
+          new Ninja(this._stage, this._resources, true, playerState.id)
         );
         //});
       }
       //set state
       //playersState.forEach((playerState: NinjaState) => {
       this._players.map((player: Ninja) => {
-        if (player.id === playerState.id) player.setCurrentState(playerState);
+        if (player.id === playerState.id) player.currentState = playerState;
       });
       //});
     });
@@ -75,10 +62,21 @@ export class Game {
     this._animationLoop.renderer.on("prerender", () => {
       //update state (tick)
       this._players.forEach((player: Ninja) => {
-        if (socketConnection.socket.id === player.id) player.castMotions();
+        if (socketConnection.socket.id === player.id) {
+          player.castMotions();
+          socketConnection.emitStateUpdate(this.roomId, player.currentState);
+        }
         player.drawCurrentState();
       });
     });
+  }
+
+  //private
+  private _Sprite(texture: PIXI.Texture) {
+    let sprite = new PIXI.Sprite(texture);
+    sprite.width = window.innerWidth;
+    sprite.height = window.innerHeight;
+    return sprite;
   }
 }
 
