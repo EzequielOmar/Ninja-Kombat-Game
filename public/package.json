@@ -27,7 +27,7 @@
     "@babel/preset-env": "^7.12.13",
     "@babel/preset-typescript": "^7.12.13",
     "@types/pixi.js": "^5.0.0",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.3.0",
     "pixi-animationloop": "^1.0.9",
     "pixi.js": "^5.3.7",
     "pixi.js-keyboard": "^1.0.9",
